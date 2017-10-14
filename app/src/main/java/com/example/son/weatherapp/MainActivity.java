@@ -3,7 +3,9 @@ package com.example.son.weatherapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -125,6 +127,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         etCity = (EditText) findViewById(R.id.et_city_name);
+        etCity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
         ivSearch = (ImageView) findViewById(R.id.bt_search);
         tvLocation = (TextView) findViewById(R.id.tv_country);
         ivWeather = (ImageView) findViewById(R.id.iv_weather);
@@ -134,14 +146,18 @@ public class MainActivity extends AppCompatActivity {
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String cityName = etCity.getText().toString();
-                if (cityName.equals("")) {
-                    Toast.makeText(MainActivity.this, "!!!Enter City", Toast.LENGTH_SHORT).show();
-                } else {
-                    etCity.setText("");
-                    loadData(cityName);
-                }
+                performSearch();
             }
         });
+    }
+
+    private void performSearch() {
+        String cityName = etCity.getText().toString();
+        if (cityName.equals("")) {
+            Toast.makeText(MainActivity.this, "!!!Enter City", Toast.LENGTH_SHORT).show();
+        } else {
+            etCity.setText("");
+            loadData(cityName);
+        }
     }
 }
