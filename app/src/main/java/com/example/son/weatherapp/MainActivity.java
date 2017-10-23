@@ -93,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    weatherAdapter = new WeatherAdapter(weatherList);
-                    rvWeather.setAdapter(weatherAdapter);
+                    weatherAdapter.notifyDataSetChanged();
 
 //                    for (WeatherList weather: weatherList) {
 //                        Log.d(TAG, "onResponse: "  + weather.toString());
